@@ -1,4 +1,6 @@
 package population;
+import java.util.Random;
+import java.util.concurrent.ThreadLocalRandom;
 
 
 public class Individual {
@@ -22,4 +24,41 @@ public class Individual {
         return comfort;
     }
 
+    
+    private double exponencialDistribution(){
+        return ThreadLocalRandom.current().nextDouble();
+    }
+
+    public double getDeathInterval(double comfort, double mu){
+        //calcula média da expressão fornecida
+        double mean = (1-Math.log(1-comfort))*mu;
+        
+        //gera número aleatório uniformemente distribuido entre 0 e 1  
+        double exp = exponencialDistribution();
+
+        //aplica distribuição exponencial com a média
+        return -Math.log(1-exp)*mean;
+    }   
+
+    public double getReproductionInterval(double comfort, double rho){
+        //calcula média da expressão fornecida
+        double mean = (1-Math.log(comfort))*rho;
+
+        //gera número aleatório uniformemente distribuido entre 0 e 1  
+        double exp = exponencialDistribution();
+
+        //aplica distribuição exponencial com a média
+        return -Math.log(1-exp)*mean;
+    } 
+
+    public double getMutationInterval(double comfort, double delta){
+        //calcula média da expressão fornecida
+        double mean = (1-Math.log(comfort))*delta;
+
+        //gera número aleatório uniformemente distribuido entre 0 e 1  
+        double exp = exponencialDistribution();
+
+        //aplica distribuição exponencial com a média
+        return -Math.log(1-exp)*mean;
+    }
 }
