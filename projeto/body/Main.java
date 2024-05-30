@@ -17,28 +17,30 @@ public class Main{
             }
         } else {
             System.out.println("Usage:");
-            System.out.println("Random mode: java -jar project.jar -r n m τ ν νmax µ ρ δ");
+            System.out.println("Random mode: java -jar project.jar -r n m tau nu numax mu rho delta");
             System.out.println("File mode: java -jar project.jar -f <infile>");
         }
+
+        
     }
 
     private static void handleRandomMode(String[] args){
         if (args.length != 9){
             System.out.println("Invalid number of parameters");
-            System.out.println("Usage: java -jar project.jar -r n m τ ν νmax µ ρ δ");
+            System.out.println("Usage: java -jar project.jar -r n m tau nu numax mu rho delta");
             return;
         }
 
-        int n = Integer.parseInt(args[1]);
-        int m = Integer.parseInt(args[2]);
-        int tau = Integer.parseInt(args[3]);
-        int nu = Integer.parseInt(args[4]);
-        int nuMax = Integer.parseInt(args[5]);
-        double mu = Double.parseDouble(args[6]);
-        double rho = Double.parseDouble(args[7]);
-        double delta = Double.parseDouble(args[8]);
+        final int n = Integer.parseInt(args[1]);
+        final int m = Integer.parseInt(args[2]);
+        final int tau = Integer.parseInt(args[3]);
+        final int nu = Integer.parseInt(args[4]);
+        final int nuMax = Integer.parseInt(args[5]);
+        final double mu = Double.parseDouble(args[6]);
+        final double rho = Double.parseDouble(args[7]);
+        final double delta = Double.parseDouble(args[8]);
 
-        int[][] C = generateRandomMatrix(n, m);
+        final int[][] C = generateRandomMatrix(n, m);
         printMatrix(C);
     }
 
@@ -52,16 +54,16 @@ public class Main{
         String filename = args[1];
         try (BufferedReader reader = new BufferedReader(new FileReader(filename))) {
             String[] params = reader.readLine().split(" ");
-            int n = Integer.parseInt(params[0]);
-            int m = Integer.parseInt(params[1]);
-            int tau = Integer.parseInt(params[2]);
-            int nu = Integer.parseInt(params[3]);
-            int nuMax = Integer.parseInt(params[4]);
-            double mu = Double.parseDouble(params[5]);
-            double rho = Double.parseDouble(params[6]);
-            double delta = Double.parseDouble(params[7]);
+            final int n = Integer.parseInt(params[0]);
+            final int m = Integer.parseInt(params[1]);
+            final int tau = Integer.parseInt(params[2]);
+            final int nu = Integer.parseInt(params[3]);
+            final int nuMax = Integer.parseInt(params[4]);
+            final double mu = Double.parseDouble(params[5]);
+            final double rho = Double.parseDouble(params[6]);
+            final double delta = Double.parseDouble(params[7]);
 
-            int[][] C = new int[n][m];
+            final int[][] C = new int[n][m];
             for (int i = 0; i < n; i++) {
                 String[] row = reader.readLine().split(" ");
                 for (int j = 0; j < m; j++) {
