@@ -1,17 +1,50 @@
-package body;
+package main;
+
+import ep.Population;
+import pa.Patrol;
+import dss.Simulation;
 
 import java.io.BufferedReader;
 import java.io.FileReader;
 import java.io.IOException;
 import java.util.Random;
 
-public class Main{
-    public static void main(String[] args){
+public class Main {
+    public static void main(String[] args) {
+
+        final int[] n = {0};
+        final int[] m = {0};
+        final int[] tau = {0};
+        final int[] v = {0};
+        final int[] vMax = {0};
+        final int[] mu = {0};
+        final int[] rho = {0};
+        final int[] delta = {0};
+        final int[][] C = null;
+
+        getAgrs(args, n, m, tau, v, vMax, mu, rho, delta, C);
+
+        
+        Population pop = new Population(vMax[0]);
+        Simulation sim = new Simulation(tau[0], mu[0], rho[0], delta[0]);
+
+        for (int i = 0; i < v[0]; i++) {
+            pop.addInd(new Patrol(n[0], m[0], C), sim);
+        }
+
+        while (sim.nextEv()) {
+            
+        }
+
+    }
+
+    private static void getAgrs(String[] args, int[] n, int[] m, int[] tau, int[] v, int[] vMax, int[] mu, int[] rho, int[] delta, int[][] C) {
+
         if (args.length > 0) {
             if ("-r".equals(args[0])) {
-                handleRandomMode(args);
+                handleRandomMode(args, n, m, tau, v, vMax, mu, rho, delta, C);
             } else if ("-f".equals(args[0])) {
-                handleFileMode(args);
+                handleFileMode(args, n, m, tau, v, vMax, mu, rho, delta, C);
             } else {
                 System.out.println("Invalid command. Use -r for random mode or -f for file mode.");
             }
@@ -21,30 +54,31 @@ public class Main{
             System.out.println("File mode: java -jar project.jar -f <infile>");
         }
 
-        
+        return;
+
     }
 
-    private static void handleRandomMode(String[] args){
+    private static void handleRandomMode(String[] args, int[] n, int[] m, int[] tau, int[] v, int[] vMax, int[] mu, int[] rho, int[] delta, int[][] C){
         if (args.length != 9){
             System.out.println("Invalid number of parameters");
             System.out.println("Usage: java -jar project.jar -r n m tau nu numax mu rho delta");
             return;
         }
 
-        final int n = Integer.parseInt(args[1]);
-        final int m = Integer.parseInt(args[2]);
-        final int tau = Integer.parseInt(args[3]);
-        final int nu = Integer.parseInt(args[4]);
-        final int nuMax = Integer.parseInt(args[5]);
-        final double mu = Double.parseDouble(args[6]);
-        final double rho = Double.parseDouble(args[7]);
-        final double delta = Double.parseDouble(args[8]);
+        n[0] = Integer.parseInt(args[1]);
+        m[0] = Integer.parseInt(args[2]);
+        tau[0] = Integer.parseInt(args[3]);
+        v[0] = Integer.parseInt(args[4]);
+        vMax[0] = Integer.parseInt(args[5]);
+        mu[0] = Integer.parseInt(args[6]);
+        rho[0] = Integer.parseInt(args[7]);
+        delta[0] = Integer.parseInt(args[8]);
 
-        final int[][] C = generateRandomMatrix(n, m);
+        C = generateRandomMatrix(n[0], m[0]);
         printMatrix(C);
     }
 
-    private static void handleFileMode(String[] args) {
+    private static void handleFileMode(String[] args, int[] n, int[] m, int[] tau, int[] v, int[] vMax, int[] mu, int[] rho, int[] delta, int[][] C) {
         if (args.length != 2) {
             System.out.println("Invalid number of parameters for file mode.");
             System.out.println("Usage: java -jar project.jar -f <infile>");
@@ -54,19 +88,19 @@ public class Main{
         String filename = args[1];
         try (BufferedReader reader = new BufferedReader(new FileReader(filename))) {
             String[] params = reader.readLine().split(" ");
-            final int n = Integer.parseInt(params[0]);
-            final int m = Integer.parseInt(params[1]);
-            final int tau = Integer.parseInt(params[2]);
-            final int nu = Integer.parseInt(params[3]);
-            final int nuMax = Integer.parseInt(params[4]);
-            final double mu = Double.parseDouble(params[5]);
-            final double rho = Double.parseDouble(params[6]);
-            final double delta = Double.parseDouble(params[7]);
+            n[0] = Integer.parseInt(params[0]);
+            m[0] = Integer.parseInt(params[1]);
+            tau[0] = Integer.parseInt(params[2]);
+            v[0] = Integer.parseInt(params[3]);
+            vMax[0] = Integer.parseInt(params[4]);
+            mu[0] = Integer.parseInt(params[5]);
+            rho[0] = Integer.parseInt(params[6]);
+            delta[0] = Integer.parseInt(params[7]);
 
-            final int[][] C = new int[n][m];
-            for (int i = 0; i < n; i++) {
+            C = new int[n[0]][m[0]];
+            for (int i = 0; i < n[0]; i++) {
                 String[] row = reader.readLine().split(" ");
-                for (int j = 0; j < m; j++) {
+                for (int j = 0; j < m[0]; j++) {
                     C[i][j] = Integer.parseInt(row[j]);
                 }
             }
@@ -76,8 +110,6 @@ public class Main{
             System.out.println("Error reading input file: " + e.getMessage());
         }
     }
-
-
 
     private static int[][] generateRandomMatrix(int n, int m) {
         Random random = new Random();
@@ -99,4 +131,3 @@ public class Main{
         }
     }
 }
-
