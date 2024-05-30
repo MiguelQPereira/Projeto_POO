@@ -9,5 +9,7 @@ javac body/*.java population/*.java [e todos os pacotes que sejam criados entret
 jar cmf manif.txt project.jar body/* population/* [e todos os pacotes que sejam criados entretanto]
 
 Usage:
+
 Random mode: java -jar project.jar -r n m tau nu numax mu rho delta
+
 File mode: java -jar project.jar -f <infile>
