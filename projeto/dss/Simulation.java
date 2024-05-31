@@ -1,53 +1,69 @@
 package dss;
 
-import java.util.PriorityQueue;
-
 public class Simulation implements Sim{
     
     private final int t;
-    private final int u;
-    private final int q;
-    private final int s;
+    private int numEvs;
 
     private double instante;
 
-    PriorityQueue<EventTimer> Evs;
+    private PecInt Evs;
 
-    public Simulation(int t, int u, int q, int s) {
+    public Simulation(int t) {
 
         this.t = t;
-        this.u = u;
-        this.q = q;
-        this.s = s;
         this.instante = 0;
-
-        this.Evs = new PriorityQueue<EventTimer>();
+        this.Evs = Pec.getPec();
     }
 
-    public boolean nextEv() {
+    public void runSim() {
 
-        if (Evs.isEmpty()) return false;
+        while (!Evs.isEmpty()) {
 
-        EventTimer next = Evs.poll();
+            Event next = Evs.getNext();
 
-        this.instante = next.time;
+            this.instante = next.getTime();
+    
+            next.simulate();
 
-        next.ev.simulate();
+            this.numEvs++;
+        }
 
-        return true;
+        return ;
     }
 
     public void addEv(Event ev) {
 
-        EventTimer n = new EventTimer(ev, u, q, s, this.instante);
+        if (ev.getTime() > this.t || ev.getTime() < 0) return;
 
-        if (n.time > this.t || n.time < 0) return;
-
-        //Comparator
-
-        this.Evs.add(n);
+        this.Evs.add(ev);
 
         return;
     }
 
+    public double getTime() {
+        return this.instante;
+    }
+
+    public int getMaxTime() {
+        return this.t;
+    }
+
+    public int getEvsNum() {
+        return this.numEvs;
+    }
+
+    public void emptiesPec() {
+
+        this.Evs.empties();
+
+        return;
+    }
+
+    public void cleanPec() {
+
+        this.Evs.clean();
+
+        return;
+    }
 }

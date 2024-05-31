@@ -5,7 +5,7 @@ import dss.Event;
 class PrintFactory extends EvFactory{
 
     @Override
-    public Event newEvent() {
-        return new EvPrint();
+    public Event newEvent(Population p, Individuo ref, double time) {
+        return new EvPrint(p, ref, time);
     }
 }
