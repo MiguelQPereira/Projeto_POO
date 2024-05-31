@@ -7,8 +7,8 @@ public class EvMut implements Event {
     Population p;
     Individuo ref;
 
-    public EvMut(Individuo ref) {
-        this.ref = ref;
+    public EvMut() {
+
     }
 
     public void simulate() {
@@ -24,6 +24,18 @@ public class EvMut implements Event {
     public int getType() {
 
         return 3;
+    }
+
+    public void setPop(Population p) {
+        this.p = p;
+
+        return;
+    }
+
+    public void setInd(Individuo ind) {
+        this.ref = ind;
+
+        return;
     }
 
 }

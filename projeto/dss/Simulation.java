@@ -43,6 +43,8 @@ public class Simulation implements Sim{
 
         if (n.time > this.t || n.time < 0) return;
 
+        //Comparator
+
         this.Evs.add(n);
 
         return;

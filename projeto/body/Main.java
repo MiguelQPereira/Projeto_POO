@@ -1,4 +1,4 @@
-package main;
+package body;
 
 import ep.Population;
 import pa.Patrol;
@@ -33,7 +33,7 @@ public class Main {
         }
 
         while (sim.nextEv()) {
-            
+            if (pop.perfeito()) break;
         }
 
     }

@@ -25,4 +25,10 @@ public class EvPrint implements Event {
         return 0;
     }
 
+    public void setPop(Population p) {
+        this.p = p;
+
+        return;
+    }
+
 }

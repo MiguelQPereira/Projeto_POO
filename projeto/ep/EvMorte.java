@@ -7,8 +7,8 @@ public class EvMorte implements Event {
     Population p;
     Individuo ref;
 
-    public EvMorte(Individuo ref) {
-        this.ref = ref;
+    public EvMorte() {
+
     }
 
     public void simulate() {
@@ -24,6 +24,18 @@ public class EvMorte implements Event {
     public int getType() {
 
         return 4;
+    }
+
+    public void setPop(Population p) {
+        this.p = p;
+
+        return;
+    }
+
+    public void setInd(Individuo ind) {
+        this.ref = ind;
+
+        return;
     }
 
 }
