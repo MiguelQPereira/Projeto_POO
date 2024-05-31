@@ -16,11 +16,12 @@ public class Population implements Pop{
     private final int s;
 
     private int epiConter;
+    private int obs;
 
-    EvFactory fabMorte;
-    EvFactory fabMut;
-    EvFactory fabRep;
-    EvFactory fabPrint;
+    private EvFactory fabMorte;
+    private EvFactory fabMut;
+    private EvFactory fabRep;
+    private EvFactory fabPrint;
 
     private ArrayList<Individuo> pop;
     private ListIterator<Individuo> iterator;
@@ -38,6 +39,7 @@ public class Population implements Pop{
         this.s = s;
 
         this.epiConter = 0;
+        this.obs = 0;
 
         this.fabMorte = new MorteFactory();
         this.fabMut = new MutFactory();
@@ -53,6 +55,18 @@ public class Population implements Pop{
     public void addInd(Individuo ind) {
 
         //Ordenar População
+
+        this.iterator = this.pop.listIterator();
+
+        int i = 0;
+        while (iterator.hasNext()) {
+            Individuo ele = iterator.next();
+
+            if (ele.getConfort() < ind.getConfort()) break;
+            i++;
+        }
+
+        pop.add(i, ind);
 
         if (ind.getConfort() == 1)
         {
@@ -101,7 +115,7 @@ public class Population implements Pop{
 
         this.epiConter++;
 
-        //Rem eventos
+        this.sim.cleanPec();
 
         return;
     }
@@ -170,6 +184,18 @@ public class Population implements Pop{
         if (ind.getDeadTime() > Ev.getTime()) this.sim.addEv(Ev);
 
         return;
+    }
+
+    public int getPopSize() {
+        return this.pop.size();
+    }
+
+    public int getObsNum() {
+        return this.obs;
+    }
+
+    public void incrObs() {
+        this.obs++;
     }
 
 }

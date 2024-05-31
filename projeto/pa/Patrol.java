@@ -210,6 +210,27 @@ public class Patrol implements Individuo{
 
     public String toString() {
 
+        String str = String.format("{%s} : %d : %d", this.getDistribution(), this.time, this.confort);;
+
+        return str;
+    }
+
+    public void setDeadTime(double t) {
+        this.deadTime = t;
+
+        return;
+    }
+
+    public double getDeadTime() {
+        return this.deadTime;
+    }
+
+    public double getTime() {
+        return this.time;
+    }
+
+    public String getDistribution() {
+
         StringBuilder patrulhas = new StringBuilder();
 
         for (int i = 0; i < this.n; i++) {
@@ -226,19 +247,8 @@ public class Patrol implements Individuo{
             if (i != (this.n -1)) patrulhas.append(',');
         }
 
-        String str = String.format("{%s} : %d : %d", patrulhas.toString(), this.time, this.confort);;
+        return patrulhas.toString();
 
-        return str;
-    }
-
-    public void setDeadTime(double t) {
-        this.deadTime = t;
-
-        return;
-    }
-
-    public double getDeadTime() {
-        return this.deadTime;
     }
 
 }
