@@ -7,8 +7,10 @@ public class Patrol implements Individuo{
 
     private final int n;
     private final int m;
-    private final int[][] allocation;
-    private final double confort;
+    private int[][] matrix;
+    private int[][] allocation;
+    private double confort;
+    private final double tmin;
 
     public Patrol(int arg_n ,int arg_m, int[][] arg_c) {
 
@@ -17,6 +19,7 @@ public class Patrol implements Individuo{
         n = arg_n;
         m = arg_m;
         allocation = new int[n][m];
+        matrix = arg_c;
 
         for (int i = 0; i < n; i++) {
             for (int j = 0; j < m; j++) {
@@ -26,40 +29,51 @@ public class Patrol implements Individuo{
 
         for (int j = 0; j < m; j++) {
             int x = random.nextInt(n);
-            allocation[x][m] = arg_c[x][m];
+            allocation[x][m] = matrix[x][m];
         }
 
-        confort = calConfort(n, m, allocation);
+        tmin = calcTMin();
+
+        confort = calConfort();
     }
 
-    private double calConfort (int n, int m, int[][] a) {
+    private double calConfort () {
 
-        double t_min = 0;
-        int t_z = 0;
+        double t_z = 0;
 
-        int t = 0;
-
-        for (int j = 0, min = Integer.MAX_VALUE; j < m; j++, min = Integer.MAX_VALUE) {
-            for (int i = 0; i < n; i++) {
-                if (allocation[i][j] < min) {
-                    min = allocation[i][j];
-                }
-            }
-            t = t + min;
-        }
-
-        t_min = t / n;
-
-        for (int i = 0, sum = 0; i < m; i++, sum = 0) {
-            for (int j = 0; j < n; j++) {
-                    sum = sum + allocation[i][j];
+        for (int i = 0, sum = 0; i < this.n; i++, sum = 0) {
+            for (int j = 0; j < this.m; j++) {
+                    sum = sum + this.allocation[i][j];
             }
             if (t_z < sum) {
                 t_z = sum;
             }
         }
 
-        return t_min / t_z;
+        return this.tmin / t_z;
+    }
+
+    private double calcTMin() {
+
+        double tmin = 0;
+
+        for (int j = 0, min = Integer.MAX_VALUE; j < this.m; j++, min = Integer.MAX_VALUE) {
+            for (int i = 0; i < this.n; i++) {
+                if (this.matrix[i][j] < min) {
+                    min = this.matrix[i][j];
+                }
+            }
+            tmin = tmin + min;
+        }
+
+        tmin = tmin / this.n;
+
+        return tmin;
+    }
+
+    public double getConfort() {
+
+        return this.confort;
     }
 
 }

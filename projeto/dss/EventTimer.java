@@ -14,6 +14,8 @@ public class EventTimer {
         double mean;
         double exp;
 
+        double comfort = ev.get_confort();
+
         switch (ev.getType()) {
             case 2:
 

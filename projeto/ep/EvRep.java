@@ -7,9 +7,8 @@ public class EvRep implements Event {
     Population p;
     Individuo ref;
 
-    public EvRep(Population p, Individuo ref) {
-        this.p = p;
-        this.ref = ref;
+    public EvRep() {
+
     }
 
     public void simulate() {
@@ -25,6 +24,18 @@ public class EvRep implements Event {
     public int getType() {
 
         return 2;
+    }
+
+    public void setPop(Population p) {
+        this.p = p;
+
+        return;
+    }
+
+    public void setInd(Individuo ind) {
+        this.ref = ind;
+
+        return;
     }
 
 }

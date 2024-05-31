@@ -5,4 +5,5 @@ public interface Individuo {
     void mut();
     void dead();
     double getConfort();
+    String toString();
 }
