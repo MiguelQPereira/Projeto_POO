@@ -4,10 +4,18 @@ import java.util.ArrayList;
 import java.util.ListIterator;
 import java.util.Random;
 import dss.Sim;
+import dss.Event;
 
-public class Population implements Pop<Sim>{
+public class Population implements Pop{
 
     private final int maxPop;
+    private final Sim sim;
+    
+    private final int u;
+    private final int q;
+    private final int s;
+
+    private int epiConter;
 
     EvFactory fabMorte;
     EvFactory fabMut;
@@ -17,36 +25,48 @@ public class Population implements Pop<Sim>{
     private ArrayList<Individuo> pop;
     private ListIterator<Individuo> iterator;
     
-    public Population(int maxPop) {
+    public Population(int maxPop, Sim sim, int u, int q, int s) {
         this.maxPop = maxPop;
 
         this.pop = new ArrayList<Individuo>();
         this.iterator = this.pop.listIterator();
 
-        fabMorte = new MorteFactory();
-        fabMut = new MutFactory();
-        fabRep = new RepFactory();
-        fabPrint = new PrintFactory();
-    }
+        this.sim = sim;
 
-    public boolean perfeito() {
+        this.u = u;
+        this.q = q;
+        this.s = s;
 
-        if ((this.pop.get(0)).getConfort() == 1) {
+        this.epiConter = 0;
 
-            //Print
+        this.fabMorte = new MorteFactory();
+        this.fabMut = new MutFactory();
+        this.fabRep = new RepFactory();
+        this.fabPrint = new PrintFactory();
 
-            return true;
+        //Adiciona eventos print
+        for (int i = 1; i <= 20; i++) {
+            this.sim.addEv(this.fabPrint.createEvent(this, null, (i + 1) / this.sim.getMaxTime()));
         }
-
-        return false;
     }
 
-    public void addInd(Individuo ind, Sim s) {
+    public void addInd(Individuo ind) {
 
         //Ordenar População
 
-        //Add Evs
+        if (ind.getConfort() == 1)
+        {
+            this.sim.emptiesPec();
 
+            this.sim.addEv(this.fabPrint.createEvent(this, null, this.sim.getTime()));
+
+            return;
+        }
+
+        this.addEvMorte(ind);
+        this.addEvMut(ind);
+        this.addEvRep(ind);
+        
         if (this.pop.size() > maxPop) {
             epidmia();
         }
@@ -56,17 +76,7 @@ public class Population implements Pop<Sim>{
 
     public void remInd(Individuo ind) {
 
-        Individuo ele;
-
-        while (iterator.hasNext()) {
-            ele = iterator.next();
-            if (ele.equals(ind)) {
-
-                //Apagar eventos quando individuo morre
-
-                iterator.remove();
-            }
-        }
+        this.pop.remove(ind);
 
         return;
     }
@@ -86,8 +96,78 @@ public class Population implements Pop<Sim>{
 
             randomVariable = random.nextDouble();
 
-            if (randomVariable > (ele.getConfort() * 2 / 3)) remInd(ele);
+            if (randomVariable > (ele.getConfort() * 2 / 3)) this.remInd(ele);
         }
+
+        this.epiConter++;
+
+        //Rem eventos
+
+        return;
+    }
+
+    public ArrayList<Individuo> getPop() {
+
+        return this.pop;
+    }
+
+    public int getMu() {
+
+        return this.u;
+    }
+
+    public int getRho() {
+
+        return this.q;
+    }
+
+    public int getSigma() {
+
+        return this.s;
+    }
+
+    public int getEpiConter() {
+
+        return this.epiConter;
+    }
+
+    public double getSimTime() {
+        return this.sim.getTime();
+    }
+
+    public int getEvsNum() {
+        return this.sim.getEvsNum();
+    }
+
+    public void addEvMorte(Individuo ind) {
+
+        double inst = this.sim.getTime();
+
+        Event Ev = this.fabMorte.createEvent(this, ind, inst);
+
+        if (ind.getDeadTime() == 0) this.sim.addEv(Ev);
+
+        return;
+    }
+
+    public void addEvMut(Individuo ind) {
+
+        double inst = this.sim.getTime();
+
+        Event Ev = this.fabMut.createEvent(this, ind, inst);
+
+        if (ind.getDeadTime() > Ev.getTime()) this.sim.addEv(Ev);
+
+        return;
+    }
+
+    public void addEvRep(Individuo ind) {
+
+        double inst = this.sim.getTime();
+
+        Event Ev = this.fabRep.createEvent(this, ind, inst);
+
+        if (ind.getDeadTime() > Ev.getTime()) this.sim.addEv(Ev);
 
         return;
     }

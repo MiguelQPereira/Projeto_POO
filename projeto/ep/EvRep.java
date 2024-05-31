@@ -1,5 +1,7 @@
 package ep;
 
+import java.util.concurrent.ThreadLocalRandom;
+
 import dss.Event;
 
 public class EvRep implements Event {
@@ -7,35 +9,44 @@ public class EvRep implements Event {
     Population p;
     Individuo ref;
 
-    public EvRep() {
+    double time;
 
+    public EvRep(Population p, Individuo ref, double inst) {
+
+        this.p = p;
+        this.ref = ref;
+
+        double mean;
+        double exp;
+        
+        //calcula média da expressão fornecida
+        mean = (1-Math.log(this.ref.getConfort()))*this.p.getRho();
+
+        //gera número aleatório uniformemente distribuido entre 0 e 1  
+        exp = ThreadLocalRandom.current().nextDouble();
+
+        //aplica distribuição exponencial com a média
+        this.time = inst - Math.log(1-exp)*mean;
     }
 
     public void simulate() {
 
-        return;
-    }
+        this.p.addInd(ref.rep());
 
-    public double get_confort() {
-
-        return this.ref.getConfort();
-    }
-
-    public int getType() {
-
-        return 2;
-    }
-
-    public void setPop(Population p) {
-        this.p = p;
+        this.p.addEvRep(ref);
 
         return;
     }
 
-    public void setInd(Individuo ind) {
-        this.ref = ind;
+    public boolean isAlive() {
 
-        return;
+        if (this.p.getPop().contains(this.ref)) return true;
+
+        return false;
     }
 
+    public double getTime() {
+
+        return this.time;
+    }
 }

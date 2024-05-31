@@ -25,16 +25,14 @@ public class Main {
         getAgrs(args, n, m, tau, v, vMax, mu, rho, delta, C);
 
         
-        Population pop = new Population(vMax[0]);
-        Simulation sim = new Simulation(tau[0], mu[0], rho[0], delta[0]);
+        Simulation sim = new Simulation(tau[0]);
+        Population pop = new Population(vMax[0], sim, mu[0], rho[0], delta[0]);
 
         for (int i = 0; i < v[0]; i++) {
-            pop.addInd(new Patrol(n[0], m[0], C), sim);
+            pop.addInd(new Patrol(n[0], m[0], C));
         }
 
-        while (sim.nextEv()) {
-            if (pop.perfeito()) break;
-        }
+        sim.runSim();
 
     }
 
