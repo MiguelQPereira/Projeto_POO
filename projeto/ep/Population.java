@@ -72,7 +72,7 @@ public class Population implements Pop{
 
         if (ind.getConfort() == 1)
         {
-            perfeito();
+            this.perfeito();
             return;
         }
 

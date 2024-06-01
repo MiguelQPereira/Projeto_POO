@@ -50,6 +50,7 @@ public class Main {
             System.out.println("Usage:");
             System.out.println("Random mode: java -jar project.jar -r n m tau nu numax mu rho delta");
             System.out.println("File mode: java -jar project.jar -f <infile>");
+            System.exit(0);
         }
 
         return;
@@ -60,6 +61,7 @@ public class Main {
         if (args.length != 9){
             System.out.println("Invalid number of parameters");
             System.out.println("Usage: java -jar project.jar -r n m tau nu numax mu rho delta");
+            System.exit(0);
             return;
         }
 
@@ -73,13 +75,13 @@ public class Main {
         delta[0] = Integer.parseInt(args[8]);
 
         C[0] = generateRandomMatrix(n[0], m[0]);
-        printMatrix(C[0]);
     }
 
     private static void handleFileMode(String[] args, int[] n, int[] m, int[] tau, int[] v, int[] vMax, int[] mu, int[] rho, int[] delta, int[][][] C) {
         if (args.length != 2) {
             System.out.println("Invalid number of parameters for file mode.");
             System.out.println("Usage: java -jar project.jar -f <infile>");
+            System.exit(0);
             return;
         }
 
@@ -100,9 +102,15 @@ public class Main {
                 String[] row = reader.readLine().split(" ");
                 for (int j = 0; j < m[0]; j++) {
                     C[0][i][j] = Integer.parseInt(row[j]);
+
+                    if (C[0][i][j] <= 0) {
+                        System.out.println("Invalid file matrix.");
+                        System.out.println("Matrix must have only positive integers.");
+                        System.exit(0);
+                    }
+
                 }
             }
-            printMatrix(C[0]);
             // Implement simulation logic using the matrix C and other parameters
         } catch (IOException e) {
             System.out.println("Error reading input file: " + e.getMessage());
@@ -114,18 +122,9 @@ public class Main {
         int[][] matrix = new int[n][m];
         for (int i = 0; i < n; i++) {
             for (int j = 0; j < m; j++) {
-                matrix[i][j] = random.nextInt(10); 
+                matrix[i][j] = random.nextInt(10) + 1; 
             }
         }
         return matrix;
-    }
-
-    private static void printMatrix(int[][] matrix) {
-        for (int[] row : matrix) {
-            for (int value : row) {
-                System.out.print(value + " ");
-            }
-            System.out.println();
-        }
     }
 }
