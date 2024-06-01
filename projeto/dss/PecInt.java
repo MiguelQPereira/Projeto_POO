@@ -18,7 +18,7 @@ public interface PecInt {
      * 
      * @param ev Event to add.
      */
-    void add(Event ele);
+    void add(Event ev);
 
     /**
      * Checks if the priority queue is empty.
