@@ -99,7 +99,7 @@ public class Simulation implements Sim{
     }
 
     /**
-     * Cleans the event queue, removing processed events.
+     * Cleans the event queue, removing events of dead individuals.
      */
     public void cleanPec() {
 

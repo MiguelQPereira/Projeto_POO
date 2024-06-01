@@ -56,9 +56,9 @@ public class Main {
      * @param tau Total simulation time.
      * @param v Initial population size.
      * @param vMax Maximum population size.
-     * @param mu Mutation rate.
+     * @param mu Death rate.
      * @param rho Reproduction rate.
-     * @param delta Death rate.
+     * @param delta Mutation rate.
      * @param C Cost matrix for patroling planetary systems.
      */
     private static void getAgrs(String[] args, int[] n, int[] m, int[] tau, int[] v, int[] vMax, int[] mu, int[] rho, int[] delta, int[][][] C) {
@@ -92,9 +92,9 @@ public class Main {
      * @param tau Total simulation time.
      * @param v Initial population size.
      * @param vMax Maximum population size.
-     * @param mu Mutation rate.
+     * @param mu Death rate.
      * @param rho Reproduction rate.
-     * @param delta Death rate.
+     * @param delta Mutation rate.
      * @param C Cost matrix for patroling planetary systems.
      */
     private static void handleRandomMode(String[] args, int[] n, int[] m, int[] tau, int[] v, int[] vMax, int[] mu, int[] rho, int[] delta, int[][][] C){

@@ -7,6 +7,9 @@ import dss.Sim;
 import ep.Individuo;
 import dss.Event;
 
+/**
+ * Population class represents a population of individuals.
+ */
 public class Population implements Pop{
 
     private final int maxPop;
@@ -27,6 +30,15 @@ public class Population implements Pop{
     private ArrayList<Individuo> pop;
     private ListIterator<Individuo> iterator;
     
+    /**
+     * Constructs a Population object.
+     * 
+     * @param maxPop The maximum population size.
+     * @param sim The simulation object.
+     * @param u Death rate.
+     * @param q Reproduction rate.
+     * @param s Mutation rate.
+     */
     public Population(int maxPop, Sim sim, int u, int q, int s) {
         this.maxPop = maxPop;
 
@@ -54,6 +66,11 @@ public class Population implements Pop{
         }
     }
 
+    /**
+     * Adds an individual to the population.
+     * 
+     * @param ind The individual to add.
+     */
     public void addInd(Individuo ind) {
 
         //Ordenar População
@@ -88,6 +105,9 @@ public class Population implements Pop{
         return;
     }
 
+    /**
+     * Schedules a print event.
+     */
     public void perfeito() {
 
         this.sim.emptiesPec();
@@ -97,6 +117,11 @@ public class Population implements Pop{
         return;
     }
 
+    /**
+     * Updates the position of an individual in the population.
+     * 
+     * @param ind The individual to update.
+     */
     public void updatePos(Individuo ind) {
 
         this.pop.remove(ind);
@@ -116,6 +141,11 @@ public class Population implements Pop{
         return;
     }
 
+    /**
+     * Retrieves the top 5 individuals in the population based on comfort level.
+     * 
+     * @return An ArrayList containing the top 5 individuals.
+     */
     public ArrayList<Individuo> getTop5() {
 
         ArrayList<Individuo> top5 = new ArrayList<Individuo>();
@@ -141,6 +171,11 @@ public class Population implements Pop{
         return top5;
     }
 
+    /**
+     * Retrieves the top 6 individuals in the population based on comfort level.
+     * 
+     * @return An ArrayList containing the top 6 individuals.
+     */
     public ArrayList<Individuo> getTop6() {
 
         ArrayList<Individuo> top6 = new ArrayList<Individuo>();
@@ -166,6 +201,11 @@ public class Population implements Pop{
         return top6;
     }
 
+    /**
+     * Removes an individual from the population.
+     * 
+     * @param ind The individual to remove.
+     */
     public void remInd(Individuo ind) {
 
         this.pop.remove(ind);
@@ -173,6 +213,9 @@ public class Population implements Pop{
         return;
     }
 
+    /**
+     * Initiates an epidemic.
+     */
     private void epidmia() {
 
         if (pop.size() < 6) return;
@@ -202,39 +245,79 @@ public class Population implements Pop{
         return;
     }
 
+    /**
+     * Retrieves the population.
+     * 
+     * @return An ArrayList containing the population.
+     */
     public ArrayList<Individuo> getPop() {
 
         return this.pop;
     }
 
+    /**
+     * Retrieves the value of parameter u.
+     * 
+     * @return The value of parameter u.
+     */
     public int getMu() {
 
         return this.u;
     }
 
+    /**
+     * Retrieves the value of parameter q.
+     * 
+     * @return The value of parameter q.
+     */
     public int getRho() {
 
         return this.q;
     }
 
+    /**
+     * Retrieves the value of parameter s.
+     * 
+     * @return The value of parameter s.
+     */
     public int getSigma() {
 
         return this.s;
     }
 
+    /**
+     * Retrieves the number of epidemics that occurred.
+     * 
+     * @return The number of epidemics.
+     */
     public int getEpiConter() {
 
         return this.epiConter;
     }
 
+    /**
+     * Retrieves the current simulation time.
+     * 
+     * @return The current simulation time.
+     */
     public double getSimTime() {
         return this.sim.getTime();
     }
 
+    /**
+     * Retrieves the number of events in the simulation.
+     * 
+     * @return The number of events in the simulation.
+     */
     public int getEvsNum() {
         return this.sim.getEvsNum();
     }
 
+    /**
+     * Adds a death event for the given individual to the simulation.
+     * 
+     * @param ind The individual for which to add the death event.
+     */
     public void addEvMorte(Individuo ind) {
 
         double inst = this.sim.getTime();
@@ -246,6 +329,11 @@ public class Population implements Pop{
         return;
     }
 
+    /**
+     * Adds a mutation event for the given individual to the simulation.
+     * 
+     * @param ind The individual for which to add the mutation event.
+     */
     public void addEvMut(Individuo ind) {
 
         double inst = this.sim.getTime();
@@ -257,6 +345,11 @@ public class Population implements Pop{
         return;
     }
 
+    /**
+     * Adds a reproduction event for the given individual to the simulation.
+     * 
+     * @param ind The individual for which to add the reproduction event.
+     */
     public void addEvRep(Individuo ind) {
 
         double inst = this.sim.getTime();
@@ -268,14 +361,27 @@ public class Population implements Pop{
         return;
     }
 
+    /**
+     * Retrieves the size of the population.
+     * 
+     * @return The size of the population.
+     */
     public int getPopSize() {
         return this.pop.size();
     }
 
+    /**
+     * Retrieves the number of observations made.
+     * 
+     * @return The number of observations.
+     */
     public int getObsNum() {
         return this.obs;
     }
 
+    /**
+     * Increments the number of observations made.
+     */
     public void incrObs() {
         this.obs++;
     }

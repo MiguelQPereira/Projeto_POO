@@ -4,6 +4,9 @@ import java.util.concurrent.ThreadLocalRandom;
 
 import dss.Event;
 
+/**
+ * EvRep class implements the Event interface to represent reproduction events within a Population at a given time instant during simulation.
+ */
 public class EvRep implements Event {
     
     Population p;
@@ -11,6 +14,13 @@ public class EvRep implements Event {
 
     double time;
 
+     /**
+     * Constructs an EvRep object representing a reproduction event.
+     * 
+     * @param p Population.
+     * @param ref The reference Individuo for reproduction.
+     * @param inst The time instant of the event.
+     */
     public EvRep(Population p, Individuo ref, double inst) {
 
         this.p = p;
@@ -29,6 +39,9 @@ public class EvRep implements Event {
         this.time = inst - Math.log(1-exp)*mean;
     }
 
+    /**
+     * Simulates the reproduction event by adding a new Individuo to the Population.
+     */
     public void simulate() {
 
         Individuo novo = this.ref.rep();
@@ -42,6 +55,11 @@ public class EvRep implements Event {
         return;
     }
 
+    /**
+     * Checks if the event is still active.
+     * 
+     * @return True if the reference Individuo is still in the Population, otherwise false.
+     */
     public boolean isAlive() {
 
         if (this.p.getPop().contains(this.ref)) return true;
@@ -49,6 +67,11 @@ public class EvRep implements Event {
         return false;
     }
 
+    /**
+     * Gets the time of the event.
+     * 
+     * @return The time of the event.
+     */
     public double getTime() {
 
         return this.time;

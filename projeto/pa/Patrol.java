@@ -3,18 +3,43 @@ package pa;
 import java.util.Random;
 import ep.Individuo;
 
+/**
+ * The Patrol class implements the Individuo interface and represents a patrol unit.
+ * It manages the allocation of patrols, calculates comfort levels, and supports mutation and replication of patrols.
+ */
 public class Patrol implements Individuo{
-
+    
+    /** Number of rows. */
     private final int n;
+
+    /** Number of columns. */
     private final int m;
+
+    /** Matrix representing the patrol areas. */
     private int[][] matrix;
+
+    /** Allocation matrix for patrol units. */
     private int[][] allocation;
+
+    /** Comfort level of the patrol. */
     private double confort;
+
+    /** Time required for patrol coverage. */
     private int time;
+
+    /** Minimum required time for patrol coverage. */
     private final double tmin;
 
+    /** Time at which the patrol is marked as dead. */
     private double deadTime;
 
+    /**
+     * Constructs a Patrol instance with the given parameters.
+     *
+     * @param arg_n Number of rows.
+     * @param arg_m Number of columns.
+     * @param arg_c Matrix representing patrol areas.
+     */
     public Patrol(int arg_n ,int arg_m, int[][] arg_c) {
 
         Random random = new Random();
@@ -43,6 +68,9 @@ public class Patrol implements Individuo{
         this.deadTime = 0;
     }
 
+    /**
+     * Calculates the comfort level of the patrol.
+     */
     private void calConfort () {
 
         this.calcTime();
@@ -54,6 +82,9 @@ public class Patrol implements Individuo{
         return ;
     }
 
+    /**
+     * Calculates the time required for patrol coverage.
+     */
     private void calcTime() {
 
         int t_z = 0;
@@ -72,6 +103,11 @@ public class Patrol implements Individuo{
         return;
     }
 
+    /**
+     * Calculates the minimum required time for patrol coverage.
+     *
+     * @return The minimum required time for patrol coverage.
+     */
     private double calcTMin() {
 
         double tmin = 0;
@@ -90,16 +126,27 @@ public class Patrol implements Individuo{
         return tmin;
     }
 
+    /**
+     * Gets the comfort level of the patrol.
+     *
+     * @return The comfort level of the patrol.
+     */
     public double getConfort() {
 
         return this.confort;
     }
 
+    /**
+     * Marks the patrol as dead. (Does nothing)
+     */
     public void dead() {
 
         return;
     }
 
+    /**
+     * Mutates the patrol allocation by randomly reassigning patrols.
+     */
     public void mut() {
 
         //Caso só haja uma patrulha
@@ -152,6 +199,11 @@ public class Patrol implements Individuo{
         return;
     }
 
+    /**
+     * Replicates the patrol, creating a new patrol instance with similar attributes.
+     *
+     * @return A new replicated Patrol instance.
+     */
     public Individuo rep() {
 
         Random random = new Random();
@@ -209,6 +261,11 @@ public class Patrol implements Individuo{
         return nova;
     }
 
+    /**
+     * Returns a string representation of the patrol, including its distribution, time, and comfort.
+     *
+     * @return A string representation of the patrol.
+     */
     public String toString() {
 
         String str = String.format("{%s} : %d : %.3f", this.getDistribution(), this.time, this.confort);;
@@ -216,20 +273,40 @@ public class Patrol implements Individuo{
         return str;
     }
 
+    /**
+     * Sets the time at which the patrol is marked as dead.
+     *
+     * @param t The dead time to set.
+     */
     public void setDeadTime(double t) {
         this.deadTime = t;
 
         return;
     }
 
+    /**
+     * Gets the time at which the patrol is marked as dead.
+     *
+     * @return The dead time of the patrol.
+     */
     public double getDeadTime() {
         return this.deadTime;
     }
 
+    /**
+     * Gets the time required for patrol coverage.
+     *
+     * @return The time required for patrol coverage.
+     */
     public int getTime() {
         return this.time;
     }
 
+    /**
+     * Gets the distribution of patrols.
+     *
+     * @return The distribution of patrols.
+     */
     public String getDistribution() {
 
         StringBuilder patrulhas = new StringBuilder();

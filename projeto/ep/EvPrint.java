@@ -4,17 +4,31 @@ import java.util.ArrayList;
 
 import dss.Event;
 
+/**
+ * EvPrint class implements the Event interface to print observations 
+ * about a Population at a given time instant during simulation.
+ */
 public class EvPrint implements Event {
 
     Population p;
     double time;
 
+    /**
+     * Constructs an EvPrint object.
+     * 
+     * @param p Population.
+     * @param ref Individuo.
+     * @param inst The time instant of the observation.
+     */
     public EvPrint(Population p, Individuo ref, double inst) {
 
         this.p = p;
         this.time = inst;
     }
 
+    /**
+     * Simulates an observation of the Population.
+     */
     public void simulate() {
 
         this.p.incrObs();
@@ -41,11 +55,21 @@ public class EvPrint implements Event {
         return;
     }
 
+    /**
+     * Checks if the event is still active.
+     * 
+     * @return Always returns true, as the event is always considered active.
+     */
     public boolean isAlive() {
 
         return true;
     }
 
+    /**
+     * Gets the time of the event.
+     * 
+     * @return The time of the event.
+     */
     public double getTime() {
 
         return this.time;
