@@ -73,7 +73,6 @@ public class Main {
         delta[0] = Integer.parseInt(args[8]);
 
         C[0] = generateRandomMatrix(n[0], m[0]);
-        printMatrix(C[0]);
     }
 
     private static void handleFileMode(String[] args, int[] n, int[] m, int[] tau, int[] v, int[] vMax, int[] mu, int[] rho, int[] delta, int[][][] C) {
@@ -102,7 +101,6 @@ public class Main {
                     C[0][i][j] = Integer.parseInt(row[j]);
                 }
             }
-            printMatrix(C[0]);
             // Implement simulation logic using the matrix C and other parameters
         } catch (IOException e) {
             System.out.println("Error reading input file: " + e.getMessage());
@@ -114,9 +112,10 @@ public class Main {
         int[][] matrix = new int[n][m];
         for (int i = 0; i < n; i++) {
             for (int j = 0; j < m; j++) {
-                matrix[i][j] = random.nextInt(10); 
+                matrix[i][j] = random.nextInt(10) + 1; 
             }
         }
+        //printMatrix(matrix);
         return matrix;
     }
 

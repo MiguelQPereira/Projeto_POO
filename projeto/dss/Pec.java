@@ -70,6 +70,8 @@ public class Pec implements PecInt {
 
         while (!q.isEmpty()) this.q.poll();
 
+        //System.out.println("Pec apagada: " + this.q.size());
+
         return;
     }
 }

@@ -31,7 +31,11 @@ public class EvRep implements Event {
 
     public void simulate() {
 
-        this.p.addInd(this.ref.rep());
+        Individuo novo = this.ref.rep();
+
+        this.p.addInd(novo);
+
+        if (novo.getConfort() == 1) return;
 
         this.p.addEvRep(ref);
 
