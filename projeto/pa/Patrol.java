@@ -10,7 +10,7 @@ public class Patrol implements Individuo{
     private int[][] matrix;
     private int[][] allocation;
     private double confort;
-    private double time;
+    private int time;
     private final double tmin;
 
     private double deadTime;
@@ -21,7 +21,7 @@ public class Patrol implements Individuo{
 
         this.n = arg_n;
         this.m = arg_m;
-        this.allocation = new int[n][m];
+        this.allocation = new int[this.n][this.m];
         this.matrix = arg_c;
 
         for (int i = 0; i < n; i++) {
@@ -32,7 +32,8 @@ public class Patrol implements Individuo{
 
         for (int j = 0; j < m; j++) {
             int x = random.nextInt(n);
-            allocation[x][m] = matrix[x][m];
+            //System.out.println("j: " + j + " n: " + n + " x: " + x);
+            allocation[x][j] = matrix[x][j];
         }
 
         this.tmin = calcTMin();
@@ -55,7 +56,7 @@ public class Patrol implements Individuo{
 
     private void calcTime() {
 
-        double t_z = 0;
+        int t_z = 0;
 
         for (int i = 0, sum = 0; i < this.n; i++, sum = 0) {
             for (int j = 0; j < this.m; j++) {
@@ -210,7 +211,7 @@ public class Patrol implements Individuo{
 
     public String toString() {
 
-        String str = String.format("{%s} : %d : %d", this.getDistribution(), this.time, this.confort);;
+        String str = String.format("{%s} : %d : %.3f", this.getDistribution(), this.time, this.confort);;
 
         return str;
     }
@@ -225,7 +226,7 @@ public class Patrol implements Individuo{
         return this.deadTime;
     }
 
-    public double getTime() {
+    public int getTime() {
         return this.time;
     }
 
@@ -236,10 +237,12 @@ public class Patrol implements Individuo{
         for (int i = 0; i < this.n; i++) {
 
             patrulhas.append('{');
-            for (int j = 0; j < this.m; j++) {
+            for (int j = 0 ,aux = 0; j < this.m; j++) {
 
-                if (this.allocation[i][j] != 0) patrulhas.append(j + 1);
-                if (j != (this.m -1)) patrulhas.append(',');
+                if (this.allocation[i][j] == 0) continue;
+                if (aux != 0) patrulhas.append(',');
+                patrulhas.append(j + 1);
+                aux++;
 
             }
             patrulhas.append('}');

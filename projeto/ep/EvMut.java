@@ -32,6 +32,14 @@ public class EvMut implements Event {
 
         this.ref.mut();
 
+        this.p.updatePos(this.ref);
+
+        if (this.ref.getConfort() == 1) {
+
+            this.p.perfeito();
+            return;
+        }
+
         this.p.addEvMut(ref);
 
         return;

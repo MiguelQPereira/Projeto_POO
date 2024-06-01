@@ -1,1 +1,1 @@
-Main-Class: body.Main
+Main-Class: main.Main
