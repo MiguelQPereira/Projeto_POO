@@ -4,6 +4,7 @@ import java.util.ArrayList;
 import java.util.ListIterator;
 import java.util.Random;
 import dss.Sim;
+import ep.Individuo;
 import dss.Event;
 
 public class Population implements Pop{
@@ -48,7 +49,8 @@ public class Population implements Pop{
 
         //Adiciona eventos print
         for (int i = 1; i <= 20; i++) {
-            this.sim.addEv(this.fabPrint.createEvent(this, null, (i + 1) / this.sim.getMaxTime()));
+            this.sim.addEv(this.fabPrint.createEvent(this, null, ((double) this.sim.getMaxTime() * i) / 20));
+            //System.out.println(this.sim.getMaxTime() * i / 20);
         }
     }
 
@@ -59,8 +61,8 @@ public class Population implements Pop{
         this.iterator = this.pop.listIterator();
 
         int i = 0;
-        while (iterator.hasNext()) {
-            Individuo ele = iterator.next();
+        while (this.iterator.hasNext()) {
+            Individuo ele = this.iterator.next();
 
             if (ele.getConfort() < ind.getConfort()) break;
             i++;
@@ -70,10 +72,7 @@ public class Population implements Pop{
 
         if (ind.getConfort() == 1)
         {
-            this.sim.emptiesPec();
-
-            this.sim.addEv(this.fabPrint.createEvent(this, null, this.sim.getTime()));
-
+            perfeito();
             return;
         }
 
@@ -81,11 +80,90 @@ public class Population implements Pop{
         this.addEvMut(ind);
         this.addEvRep(ind);
         
-        if (this.pop.size() > maxPop) {
+        if (this.pop.size() > this.maxPop) {
+            //System.out.println("Epidemia " + this.maxPop + " : " + this.pop.size() + " maxtime: " + this.sim.getMaxTime());
             epidmia();
         }
 
         return;
+    }
+
+    public void perfeito() {
+
+        this.sim.emptiesPec();
+
+        this.sim.addEv(this.fabPrint.createEvent(this, null, this.sim.getTime()));
+
+        return;
+    }
+
+    public void updatePos(Individuo ind) {
+
+        this.pop.remove(ind);
+
+        this.iterator = this.pop.listIterator();
+
+        int i = 0;
+        while (this.iterator.hasNext()) {
+            Individuo ele = this.iterator.next();
+
+            if (ele.getConfort() < ind.getConfort()) break;
+            i++;
+        }
+
+        pop.add(i, ind);
+
+        return;
+    }
+
+    public ArrayList<Individuo> getTop5() {
+
+        ArrayList<Individuo> top5 = new ArrayList<Individuo>();
+
+        int i = 0;
+
+        for (Individuo ind : this.pop) {
+
+            if (i == 5) break;
+
+            if (top5.isEmpty()) {
+                top5.add(ind);
+                i++;
+                continue;
+            }
+
+            if (ind.getConfort() != top5.get(top5.size() - 1).getConfort()) {
+                top5.add(ind);
+                i++;
+            }
+        }
+
+        return top5;
+    }
+
+    public ArrayList<Individuo> getTop6() {
+
+        ArrayList<Individuo> top6 = new ArrayList<Individuo>();
+
+        int i = 0;
+
+        for (Individuo ind : this.pop) {
+
+            if (i == 6) break;
+
+            if (top6.isEmpty()) {
+                top6.add(ind);
+                i++;
+                continue;
+            }
+
+            if (ind.getConfort() != top6.get(top6.size() - 1).getConfort()) {
+                top6.add(ind);
+                i++;
+            }
+        }
+
+        return top6;
     }
 
     public void remInd(Individuo ind) {
@@ -101,16 +179,20 @@ public class Population implements Pop{
 
         Random random = new Random();
         double randomVariable;
-        Individuo ele;
 
-        this.iterator = this.pop.listIterator(5);
+        ArrayList<Individuo> remove = new ArrayList<Individuo>();
+        ArrayList<Individuo> top5 = this.getTop5();
 
-        while (iterator.hasNext()) {
-            ele = iterator.next();
+        for (Individuo i : this.pop) {
+
+            if (top5.contains(i)) continue;
 
             randomVariable = random.nextDouble();
+            if (randomVariable > (i.getConfort() * 2 / 3)) remove.add(i);
+        }
 
-            if (randomVariable > (ele.getConfort() * 2 / 3)) this.remInd(ele);
+        for (Individuo i : remove) {
+            this.pop.remove(i);
         }
 
         this.epiConter++;

@@ -7,7 +7,7 @@ public interface Individuo {
     double getConfort();
     void setDeadTime(double t);
     double getDeadTime();
-    double getTime();
+    int getTime();
     String getDistribution();
     String toString();
 }

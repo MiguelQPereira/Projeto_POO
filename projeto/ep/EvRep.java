@@ -31,7 +31,7 @@ public class EvRep implements Event {
 
     public void simulate() {
 
-        this.p.addInd(ref.rep());
+        this.p.addInd(this.ref.rep());
 
         this.p.addEvRep(ref);
 
