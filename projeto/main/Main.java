@@ -9,7 +9,17 @@ import java.io.FileReader;
 import java.io.IOException;
 import java.util.Random;
 
+/**
+ * The Main class serves as the start for the application.
+ * It initializes the parameters for the simulation, sets up the simulation 
+ * and executes it.
+ */
 public class Main {
+    /**
+     * The main method is the entry point of the application.
+     * 
+     * @param args Command line arguments specifying the mode and parameters for the simulation.
+     */
     public static void main(String[] args) {
 
         final int[] n = {0};
@@ -36,6 +46,21 @@ public class Main {
 
     }
 
+    /**
+     * Parses the command line arguments and initializes the simulation parameters.
+     * Verifies if the program was called correctly.
+     * 
+     * @param args Command line arguments.
+     * @param n Number of patrols.
+     * @param m Number of planetary systems.
+     * @param tau Total simulation time.
+     * @param v Initial population size.
+     * @param vMax Maximum population size.
+     * @param mu Mutation rate.
+     * @param rho Reproduction rate.
+     * @param delta Death rate.
+     * @param C Cost matrix for patroling planetary systems.
+     */
     private static void getAgrs(String[] args, int[] n, int[] m, int[] tau, int[] v, int[] vMax, int[] mu, int[] rho, int[] delta, int[][][] C) {
 
         if (args.length > 0) {
@@ -45,6 +70,7 @@ public class Main {
                 handleFileMode(args, n, m, tau, v, vMax, mu, rho, delta, C);
             } else {
                 System.out.println("Invalid command. Use -r for random mode or -f for file mode.");
+                System.exit(0);
             }
         } else {
             System.out.println("Usage:");
@@ -57,6 +83,20 @@ public class Main {
 
     }
 
+    /**
+     * Handles the random mode by genetating a random cost Matrix for the simulation.
+     * 
+     * @param args Command line arguments.
+     * @param n Number of patrols.
+     * @param m Number of planetary systems.
+     * @param tau Total simulation time.
+     * @param v Initial population size.
+     * @param vMax Maximum population size.
+     * @param mu Mutation rate.
+     * @param rho Reproduction rate.
+     * @param delta Death rate.
+     * @param C Cost matrix for patroling planetary systems.
+     */
     private static void handleRandomMode(String[] args, int[] n, int[] m, int[] tau, int[] v, int[] vMax, int[] mu, int[] rho, int[] delta, int[][][] C){
         if (args.length != 9){
             System.out.println("Invalid number of parameters");
@@ -77,6 +117,20 @@ public class Main {
         C[0] = generateRandomMatrix(n[0], m[0]);
     }
 
+    /**
+     * Handles the file mode by reading the simulation parameters from a sepecified input file.
+     * 
+     * @param args Command line arguments.
+     * @param n Number of patrols.
+     * @param m Number of planetary systems.
+     * @param tau Total simulation time.
+     * @param v Initial population size.
+     * @param vMax Maximum population size.
+     * @param mu Mutation rate.
+     * @param rho Reproduction rate.
+     * @param delta Death rate.
+     * @param C Cost matrix for patroling planetary systems.
+     */
     private static void handleFileMode(String[] args, int[] n, int[] m, int[] tau, int[] v, int[] vMax, int[] mu, int[] rho, int[] delta, int[][][] C) {
         if (args.length != 2) {
             System.out.println("Invalid number of parameters for file mode.");
@@ -114,9 +168,16 @@ public class Main {
             // Implement simulation logic using the matrix C and other parameters
         } catch (IOException e) {
             System.out.println("Error reading input file: " + e.getMessage());
+            System.exit(0);
         }
     }
-
+    /**
+     * Generats a random matrix for the cost of patroling the planetary systems.
+     * 
+     * @param n Number of patrols.
+     * @param m Numbre of planetary systems.
+     * @return matrix of size n x m with random positive integers.
+     */
     private static int[][] generateRandomMatrix(int n, int m) {
         Random random = new Random();
         int[][] matrix = new int[n][m];

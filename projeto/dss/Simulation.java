@@ -1,5 +1,8 @@
 package dss;
-
+/**
+ * The Simulation class manages the execution of the simulation process.
+ * It scheduals and executes the events.
+ */
 public class Simulation implements Sim{
     
     private final int t;
